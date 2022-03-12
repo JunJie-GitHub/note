@@ -14,23 +14,7 @@
 
 面向过程更注重事情的每一个步骤及顺序，面向对象更注重事情有哪些参与者（对象）、及各自需要做什么
 
-
-
-比如：洗衣机洗衣服
-
-面向过程会将任务拆解成一系列的步骤（函数），1、打开洗衣机----->2、放衣服----->3、放洗衣粉----->4、清洗----->5、烘干
-
-面向对象会拆出人和洗衣机两个对象：
-
-人：打开洗衣机   放衣服    放洗衣粉
-
-洗衣机：清洗    烘干
-
-
-
-从以上例子能看出，面向过程比较直接高效，而面向对象更易于复用、扩展和维护
-
-
+面向过程比较直接高效，而面向对象更易于复用、扩展和维护
 
 
 
@@ -89,11 +73,7 @@ JVM：
 
 java Virtual Machine java 虚拟机
 
-
-
-![image-20210220204108484](jvm、jre关系.png)
-
-
+<img src="Java%E9%9D%A2%E8%AF%95%E9%A2%98100.assets/image-20220309161646739.png" alt="image-20220309161646739" style="zoom: 67%;" />
 
 
 
@@ -189,8 +169,6 @@ hashCode() 的作用是获取哈希码，也称为散列码；它实际上是返
 
 
 
-
-
 ## final
 
 最终的
@@ -208,7 +186,7 @@ hashCode() 的作用是获取哈希码，也称为散列码；它实际上是返
 
 （2）修饰局部变量
 
-系统不会为局部变量进行初始化，局部变量必须由程序员显示初始化。因此使用final修饰局部变量时，即可以在定义时指定默认值（后面的代码不能对变量再赋值），也可以不指定默认值，而在后面的代码中对final变量赋初值（仅一次）
+系统不会为局部变量进行初始化，局部变量必须由程序员显式初始化。因此使用final修饰局部变量时，即可以在定义时指定默认值（后面的代码不能对变量再赋值），也可以不指定默认值，而在后面的代码中对final变量赋初值（仅一次）
 
 ~~~java
 public class FinalVar {
@@ -258,7 +236,7 @@ public class Test {
     public static void main(String[] args)  {     
     }   
     //局部final变量a,b
-    public void test(final int b) {//jdk8在这里做了优化, 不用写,语法糖，但实际上也是有的，也不能修改
+    public void test(final int b) {//jdk8在这里做了优化，不用写,语法糖，但实际上也是有的，也不能修改
         final int a = 10;
         //匿名内部类
         new Thread(){
@@ -362,10 +340,6 @@ public String add(int a,String b)
 
 
 
-
-
-
-
 ## List和Set的区别
 
 - List：有序，按对象进入的顺序保存对象，可重复，允许多个Null元素对象，可以使用Iterator取出所有元素，在逐一遍历，还可以使用get(int index)获取指定下标的元素
@@ -373,28 +347,14 @@ public String add(int a,String b)
 
 
 
-
-
-
-
-
-
 ## ArrayList和LinkedList区别
 
-ArrayList：基于动态数组，连续内存存储，适合下标访问（随机访问），扩容机制：因为数组长度固定，超出长度存数据时需要新建数组，然后将老数组的数据拷贝到新数组，如果不是尾部插入数据还会涉及到元素的移动（往后复制一份，插入新元素），使用尾插法并指定初始容量可以极大提升性能、甚至超过linkedList（需要创建大量的node对象）
+**ArrayList**：基于动态数组，连续内存存储，适合下标访问（随机访问），扩容机制：因为数组长度固定，超出长度存数据时需要新建数组，然后将老数组的数据拷贝到新数组，如果不是尾部插入数据还会涉及到元素的移动（往后复制一份，插入新元素），使用尾插法并指定初始容量可以极大提升性能、甚至超过linkedList（需要创建大量的node对象）
 
-
-
-LinkedList：基于链表，可以存储在分散的内存中，适合做数据插入及删除操作，不适合查询：需要逐一遍历
+**LinkedList**：基于链表，可以存储在分散的内存中，适合做数据插入及删除操作，不适合查询：需要逐一遍历
 
 遍历LinkedList必须使用iterator不能使用for循环，因为每次for循环体内通过get(i)取得某一元素时都需要对list重新进行遍历，性能消耗极大。
 另外不要试图使用indexOf等返回元素索引，并利用其进行遍历，使用indexlOf对list进行了遍历，当结果为空时会遍历整个列表。
-
-
-
-
-
-
 
 
 
@@ -406,10 +366,11 @@ LinkedList：基于链表，可以存储在分散的内存中，适合做数据�
 
 （2）HashMap允许key和value为null，而HashTable不允许
 
+2.HashMap**数据结构**：数组+链表实现，
 
-2.底层实现：数组+链表实现
+**扩容机制**: 默认数组容量是16(1<<4)，链表高度是8，负载因子loadFactor是0.75，数组长度大于容量*负载因子,	进行扩容，扩容后的数组容量是原本两倍
 
-jdk8开始链表高度到8、数组长度超过64，链表转变为红黑树，元素以内部类Node节点存在
+**put元素**:
 
 * 计算key的hash值，二次hash然后对数组长度取模，对应到数组下标，
 
@@ -419,9 +380,11 @@ jdk8开始链表高度到8、数组长度超过64，链表转变为红黑树，�
 
 * key为null，存在下标0的位置
 
-数组扩容
+  
 
+  [视频讲解]: https://www.bilibili.com/video/BV1Vq4y187H8?p=12
 
+  
 
 
 
@@ -431,7 +394,7 @@ jdk8开始链表高度到8、数组长度超过64，链表转变为红黑树，�
 
 jdk7：
 
-数据结构：ReentrantLock+Segment+HashEntry，一个Segment中包含一个HashEntry数组，每个HashEntry又是一个链表结构
+数据结构：ReentrantLock+Segment数组+HashEntry数组，一个Segment中包含一个HashEntry数组，每个HashEntry又是一个链表结构
 
 元素查询：二次hash，第一次Hash定位到Segment，第二次Hash定位到元素所在的链表的头部
 
@@ -453,30 +416,6 @@ jdk8：
 
 
 
-
-
-
-
-## 什么是字节码？采用字节码的好处是什么？
-
-**java中的编译器和解释器：**
-
-Java中引入了虚拟机的概念，即在机器和编译程序之间加入了一层抽象的虚拟的机器。这台虚拟的机器在任何平台上都提供给编译程序一个的共同的接口。
-编译程序只需要面向虚拟机，生成虚拟机能够理解的代码，然后由解释器来将虚拟机代码转换为特定系统的机器码执行。在Java中，这种供虚拟机理解的代码叫做 字节码（即扩展名为 .class的文件），它不面向任何特定的处理器，只面向虚拟机。
-每一种平台的解释器是不同的，但是实现的虚拟机是相同的。Java源程序经过编译器编译后变成字节码，字节码由虚拟机解释执行，虚拟机将每一条要执行的字节码送给解释器，解释器将其翻译成特定机器上的机器码，然后在特定的机器上运行。这也就是解释了Java的编译与解释并存的特点。
-Java源代码---->编译器---->jvm可执行的Java字节码(即虚拟指令)---->jvm---->jvm中解释器----->机器可执行的二进制机器码---->程序运行。
-**采用字节码的好处：**
-
-Java语言通过字节码的方式，在一定程度上解决了传统解释型语言执行效率低的问题，同时又保留了解释型语言可移植的特点。所以Java程序运行时比较高效，而且，由于字节码并不专对一种特定的机器，因此，Java程序无须重新编译便可在多种不同的计算机上运行。
-
-
-
-
-
-
-
-
-
 ## Java中的异常体系
 
 Java中的所有异常都来自顶级父类Throwable。
@@ -484,12 +423,6 @@ Throwable下有两个子类Exception和Error。
 Error是程序无法处理的错误，一旦出现这个错误，则程序将被迫停止运行。
 Exception不会导致程序停止，又分为两个部分RunTimeException运行时异常和CheckedException检查异常。
 RunTimeException常常发生在程序运行过程中，会导致程序当前线程执行失败。CheckedException常常发生在程序编译过程中，会导致程序编译不通过。
-
-
-
-
-
-
 
 
 
@@ -504,33 +437,15 @@ AppClassLoader是自定义类加载器的父类，负责加载classpath下的类
 
 
 
-
-
-
-
-
-
 ##  双亲委托模型
 
-![image-20210221194055547](双亲委派.png)
-
-
+<img src="Java%E9%9D%A2%E8%AF%95%E9%A2%98100.assets/image-20220309161907031.png" alt="image-20220309161907031" style="zoom:80%;" />
 
 双亲委派模型的好处：
 
 * 主要是为了安全性，避免用户自己编写的类动态替换 Java的一些核心类，比如 String。
 
 * 同时也避免了类的重复加载，因为 JVM中区分不同类，不仅仅是根据类名，相同的 class文件被不同的 ClassLoader加载就是不同的两个类
-
-
-
-
-
-
-
-
-
-
 
 ## GC如何判断对象可以被回收
 
@@ -555,16 +470,6 @@ GC Roots的对象有：
 每个对象只能触发一次finalize()方法
 
 由于finalize()方法运行代价高昂，不确定性大，无法保证各个对象的调用顺序，不推荐大家使用，建议遗忘它。
-
-
-
-
-
-
-
-
-
-
 
 # 线程、并发相关
 
@@ -593,14 +498,6 @@ GC Roots的对象有：
 4.阻塞状态（Blocked）：阻塞状态是线程因为某种原因放弃CPU使用权，暂时停止运行。直到线程进入就绪状态，才有机会转到运行状态。
 
 5.死亡状态（Dead）：线程执行完了或者因异常退出了run方法，该线程结束生命周期。
-
-
-
-
-
-
-
-
 
 
 
@@ -1627,19 +1524,13 @@ springboot是spring提供的一个快速开发工具包，让程序员能更方�
 
 6）Controller 执行完成返回 ModelAndView。
 
-7）HandlerAdapter 将 controller 执行结果 ModelAndView 返回给 DispatcherServlet。8）DispatcherServlet 将 ModelAndView 传给 ViewReslover 视图解析器。
+7）ViewReslover 视图解析器对ModelAndView进行解析得到View。
 
-9）ViewReslover 解析后返回具体 View。
+8）DispatcherServlet 根据 View 进行渲染视图（即将模型数据填充至视图中）,响应给用户。
 
-10）DispatcherServlet 根据 View 进行渲染视图（即将模型数据填充至视图中）。
+[手写SpringMVC视频](https://www.bilibili.com/video/BV1r5411A7hZ?p=71)
 
-11）DispatcherServlet 响应用户。
-
-![image-20210224205149342](springmvc.png)
-
-
-
-
+[SpringMVC执行流程详解视频](https://www.bilibili.com/video/BV1Kz4y1D7yb?p=2&spm_id_from=pageDriver)
 
 
 
@@ -1847,9 +1738,9 @@ ${} 的变量替换是在 DBMS 外、变量替换后，${} 对应的变量不会
 编写插件： 实现 Mybatis 的 Interceptor 接口并复写 intercept()方法， 然后在给插件编写注解， 指定要拦截哪一个接口的哪些方法即可， 在配置文件中配置编写的插件。
 
 ~~~java
-@Intercepts({@Signature(type = StatementHandler.class, method = "query", args = {Statement.class, ResultHandler.class}),
-        @Signature(type = StatementHandler.class, method = "update", args = {Statement.class}),
-        @Signature(type = StatementHandler.class, method = "batch", args = { Statement.class })})
+@Intercepts({@Signature(type = StatementHandler.class，method = "query"，args = {Statement.class，ResultHandler.class}),
+        @Signature(type = StatementHandler.class，method = "update"，args = {Statement.class}),
+        @Signature(type = StatementHandler.class，method = "batch"，args = { Statement.class })})
 @Component
 
 
@@ -2223,7 +2114,7 @@ redolog的刷盘会在系统空闲时进行
 
 多版本并发控制：读取数据时通过一种类似快照的方式将数据保存下来，这样读锁就和写锁不冲突了，不同的事务session会看到自己特定版本的数据，版本链
 
-MVCC只在 READ COMMITTED 和 REPEATABLE READ 两个隔离级别下工作。其他两个隔离级别够和MVCC不兼容, 因为 READ UNCOMMITTED 总是读取最新的数据行, 而不是符合当前事务版本的数据行。而 SERIALIZABLE 则会对所有读取的行都加锁。
+MVCC只在 READ COMMITTED 和 REPEATABLE READ 两个隔离级别下工作。其他两个隔离级别够和MVCC不兼容，因为 READ UNCOMMITTED 总是读取最新的数据行，而不是符合当前事务版本的数据行。而 SERIALIZABLE 则会对所有读取的行都加锁。
 
 
 
@@ -2370,7 +2261,7 @@ Mysql的主从复制中主要有三个线程：`master（binlog dump thread）�
 
 主键：是一种特殊的唯一索引，在一张表中只能定义一个主键索引，主键用于唯一标识一条记录，使用关键字 PRIMARY KEY 来创建。
 
-联合索引：索引可以覆盖多个数据列，如像INDEX(columnA, columnB)索引。 
+联合索引：索引可以覆盖多个数据列，如像INDEX(columnA，columnB)索引。 
 
 全文索引：通过建立`倒排索引`,可以极大的提升检索效率,解决判断字段是否包含的问题，是目前搜索引擎使用的一种关键技术。可以通过ALTER TABLE table_name ADD FULLTEXT (column);创建全文索引
 
@@ -2412,9 +2303,9 @@ EXPLAIN SELECT * from A where X=? and Y=?
 - PRIMARY： 表示此查询是最外层的查询（包含子查询）
 - SUBQUERY： 子查询中的第一个 SELECT
 - UNION： 表示此查询是 UNION 的第二或随后的查询
-- DEPENDENT UNION： UNION 中的第二个或后面的查询语句, 取决于外面的查询
-- UNION RESULT, UNION 的结果
-- DEPENDENT SUBQUERY: 子查询中的第一个 SELECT, 取决于外面的查询. 即子查询依赖于外层查询的结果.
+- DEPENDENT UNION： UNION 中的第二个或后面的查询语句，取决于外面的查询
+- UNION RESULT，UNION 的结果
+- DEPENDENT SUBQUERY: 子查询中的第一个 SELECT，取决于外面的查询. 即子查询依赖于外层查询的结果.
 - DERIVED：衍生，表示导出表的SELECT（FROM子句的子查询）
 
 3.table：表示该语句查询的表
@@ -2449,7 +2340,7 @@ EXPLAIN SELECT * from A where X=? and Y=?
 
 - using filesort ：表示 mysql 对结果集进行外部排序，不能通过索引顺序达到排序效果。一般有 using filesort都建议优化去掉，因为这样的查询 cpu 资源消耗大，延时大。
 - using index：覆盖索引扫描，表示查询在索引树中就可查找所需数据，不用扫描表数据文件，往往说明性能不错。
-- using temporary：查询有使用临时表, 一般出现于排序， 分组和多表 join 的情况， 查询效率不高，建议优化。
+- using temporary：查询有使用临时表，一般出现于排序， 分组和多表 join 的情况， 查询效率不高，建议优化。
 - using where ：sql使用了where过滤,效率较高。
 
 
@@ -2942,7 +2833,7 @@ public class Server {
         try {
             IService service02 = new ServiceImpl("service02");
             Context namingContext = new InitialContext();
-            namingContext.rebind("rmi://127.0.0.1/service02", service02);
+            namingContext.rebind("rmi://127.0.0.1/service02"，service02);
         } catch (Exception e) {
             e.printStackTrace();
         }
